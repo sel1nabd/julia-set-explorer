@@ -559,7 +559,6 @@
                 
                 <div class="button-group">
                     <button id="resetBtn">Reset View</button>
-                    <button id="animateBtn">Animate Constant</button>
                     <button id="downloadBtn">Preserve as Image</button>
                 </div>
             </div>
@@ -568,7 +567,6 @@
                 <p><em>Click</em> to zoom and center</p>
                 <p><em>Drag</em> to move across the plane</p>
                 <p><em>Adjust sliders</em> to morph the fractal</p>
-                <p><em>Animate</em> to watch it evolve</p>
             </div>
         </div>
     </div>
@@ -597,8 +595,6 @@
         let dragStartX, dragStartY;
         let dragStartCenterX, dragStartCenterY;
         let hasMoved = false;
-        let isAnimating = false;
-        let animationTime = 0;
 
         // Julia set presets
         const presets = {
@@ -873,35 +869,6 @@
             
             render();
         });
-
-        document.getElementById('animateBtn').addEventListener('click', (e) => {
-            isAnimating = !isAnimating;
-            e.target.textContent = isAnimating ? 'Stop Animation' : 'Animate Constant';
-            
-            if (isAnimating) {
-                animateConstant();
-            }
-        });
-
-        async function animateConstant() {
-            if (!isAnimating) return;
-            
-            animationTime += 0.02;
-            cReal = Math.cos(animationTime * 0.5) * 0.7;
-            cImag = Math.sin(animationTime * 0.3) * 0.7;
-            
-            document.getElementById('real').value = cReal;
-            document.getElementById('realDisplay').textContent = cReal.toFixed(4);
-            document.getElementById('imag').value = cImag;
-            document.getElementById('imagDisplay').textContent = cImag.toFixed(4);
-            
-            updateDisplay();
-            await render();
-            
-            if (isAnimating) {
-                requestAnimationFrame(animateConstant);
-            }
-        }
 
         document.getElementById('downloadBtn').addEventListener('click', () => {
             const link = document.createElement('a');
